@@ -45,7 +45,7 @@ mkdir -p "$(dirname "$REPORT_FILE")"
     └ FileVault を有効化（システム設定 > プライバシーとセキュリティ）
     └ Jamf Now MDM のエンロール状態を確認
     └ 以下のコマンドを sudo 付きで実行（スクリプトでスキップされた場合）:
-         sudo systemsetup -setremotelogin off
+         sudo systemsetup -f -setremotelogin off
          sudo launchctl disable system/com.apple.smbd
 
   【4】解析データ送信オフ（スクリプトで完全に切れない場合）

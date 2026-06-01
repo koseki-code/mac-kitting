@@ -209,12 +209,14 @@ echo "▶ ネットワークサービス無効化"
 if [[ "$EUID" -eq 0 ]] || sudo -n true 2>/dev/null; then
   sudo launchctl disable system/com.apple.smbd 2>/dev/null || true
   sudo launchctl disable system/com.apple.AppleFileServer 2>/dev/null || true
-  sudo systemsetup -setremotelogin off 2>/dev/null || true
+  # -f: 「Do you really want to turn remote login off?」の確認プロンプトを抑止。
+  #     </dev/null で万一の対話入力待ち（curl|bash でのハング）も防ぐ。
+  sudo systemsetup -f -setremotelogin off >/dev/null 2>&1 </dev/null || true
   echo "  ファイル共有・リモートログインを無効化"
 else
   echo "  ⚠ sudo権限なし: ファイル共有・リモートログイン無効化はスキップ"
   echo "     後で手動実行してください:"
-  echo "       sudo systemsetup -setremotelogin off"
+  echo "       sudo systemsetup -f -setremotelogin off"
   echo "       sudo launchctl disable system/com.apple.smbd"
 fi
 

@@ -17,7 +17,8 @@ set -euo pipefail
 # ========================
 # 設定値
 # ========================
-readonly REPO_URL="https://raw.githubusercontent.com/koseki-code/mac-kitting/main"
+# REPO_URL は環境変数で上書き可能（特定コミットSHA/ブランチを指す等。raw CDNキャッシュ回避にも有効）
+readonly REPO_URL="${REPO_URL:-https://raw.githubusercontent.com/koseki-code/mac-kitting/main}"
 readonly PROFILE="${PROFILE:-general}"            # general | eng
 readonly NON_INTERACTIVE="${NON_INTERACTIVE:-0}"  # 1: プロンプトをスキップ
 readonly LOG_DIR="${HOME}/.mac-kitting/logs"
