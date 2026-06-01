@@ -74,9 +74,17 @@ defaults read -g AppleInterfaceStyle 2>&1            # → "does not exist" な�
 
 ## 3. フル実行（一般職プロファイル）
 
-設定が問題なければ本番同等のフル実行:
+設定が問題なければ本番同等のフル実行。
+**前提**: 管理者アカウントであること＋実行前に `sudo -v` を済ませること（Homebrew導入に必要）。
 
 ```bash
+# 管理者か確認
+id -Gn | tr ' ' '\n' | grep -qx admin && echo "✅ 管理者" || echo "❌ 非管理者（昇格 or 別アカウントへ）"
+
+# sudo を事前認証（パスワードを1回入力）
+sudo -v
+
+# フル実行
 curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/setup.sh | bash
 ```
 

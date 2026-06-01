@@ -45,4 +45,20 @@ echo "MDMプロファイル:"
 profiles list 2>/dev/null | head -20 || echo "  (取得には権限が必要)"
 
 echo ""
+echo "--- 実行権限 ---"
+if id -Gn | tr ' ' '\n' | grep -qx admin; then
+  echo "管理者権限: あり"
+else
+  echo "管理者権限: なし ⚠ Homebrew導入には管理者が必要です"
+  echo "  → 管理者アカウントでキッティングするか、当アカウントを管理者に昇格してください"
+fi
+
+if sudo -n true 2>/dev/null; then
+  echo "sudo事前認証: 済み（サービス無効化等のsudo項目も自動適用されます）"
+else
+  echo "sudo事前認証: 未"
+  echo "  → Homebrew導入で 'Need sudo access' を避けるため、実行前に 'sudo -v' を推奨"
+fi
+
+echo ""
 echo "プリチェック完了"

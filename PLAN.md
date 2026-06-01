@@ -172,11 +172,22 @@ curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/setup.
     sudo launchctl disable system/com.apple.smbd
     ```
 
+### 実機テスト結果（2026-06-01 完了）
+
+検証Mac（管理者アカウント）で通しテストを実施し、再起動後に各 `defaults` 設定が
+正しく反映されていることを確認した。テスト中に以下の3バグを発見・修正済み:
+
+1. **`curl \| bash` で確認プロンプトが中断扱いになる** → `confirm()` を `/dev/tty` 読みに修正
+2. **管理者＋sudo前提が未明示でHomebrewが `Need sudo access` で停止** → precheckに権限チェック追加・READMEに前提明記
+3. **`systemsetup -setremotelogin off` の確認プロンプトで無限ループ** → `-f`＋`</dev/null` で非対話化
+
+合わせて、raw CDNキャッシュ回避のため `REPO_URL` を環境変数で上書き可能にした。
+
 ### 未決定事項
 
 | 項目 | 内容 | 対応タイミング |
 |---|---|---|
-| **Caps Lock トグルの実効性** | `TISRomajiKeyEnabled`/`TISKanaKeyEnabled` が実機で効くか未検証 | 検証Macテスト時に確認 |
+| **Caps Lock トグルの実効性** | `TISRomajiKeyEnabled`/`TISKanaKeyEnabled` が実機で効くか（Google IME設定後に要確認） | IME設定後に確認 |
 | **プリンタ拠点調査** | 山形/宮城/福島の既存Macで `01-investigation.md` を実行し inventory を埋める | 拠点ごとに順次 |
 
 ---

@@ -8,6 +8,13 @@
 - 実行者: EXCEED GROUP 情シス担当者
 - 想定時間: 30分〜60分（アプリインストール時間を含む）
 - Jamf Now MDM のエンロール完了後に実行すること
+- **キッティング対象アカウントが管理者（Administrator）であること**（Homebrew導入に必須）
+- **実行前に `sudo -v` で sudo を一度認証しておくこと**（非対話実行でHomebrewが `Need sudo access` で止まるのを防ぐ）
+
+```bash
+# 実行前にこの1行を先に流しておく（パスワードを1回入力）
+sudo -v
+```
 
 ## 実行方法
 
@@ -74,6 +81,21 @@ bash ~/.mac-kitting/work/10-macos-defaults.sh
 `brew bundle` は失敗しても続行します。完了後に手動で:
 ```bash
 brew bundle --file=~/.mac-kitting/work/Brewfile
+```
+
+### Homebrew が `Need sudo access` で止まる
+
+管理者アカウントで、かつ実行前に `sudo -v` を済ませてください（前提を参照）。
+
+### スクリプト更新直後に古い版が実行される（raw CDNキャッシュ）
+
+`raw.githubusercontent.com` は約5分キャッシュされます。更新直後に最新版を確実に使うには、
+`REPO_URL` にコミットSHAを指定してキャッシュを回避します:
+
+```bash
+SHA=<最新コミットSHA>
+curl -fsSL "https://raw.githubusercontent.com/koseki-code/mac-kitting/${SHA}/setup.sh" \
+  | REPO_URL="https://raw.githubusercontent.com/koseki-code/mac-kitting/${SHA}" bash
 ```
 
 ## 開発・更新
