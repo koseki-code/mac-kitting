@@ -1,0 +1,24 @@
+# OS固有
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# エディタ
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 実行ログ（誤ってコミットしないため）
+*.log
+.mac-kitting/
+
+# 秘匿情報（万が一）
+*.env
+*.secret
+inventory-*-actual.md
+
+# 内部引き継ぎ文書（パブリック公開しない）
+HANDOFF.md

@@ -1,0 +1,46 @@
+# EXCEED GROUP エンジニア向け Brewfile
+#
+# 使い方: PROFILE=eng curl ... | bash
+# 標準Brewfile + 開発ツールを追加
+
+# ========================
+# 標準アプリ（再掲）
+# ========================
+brew "git"
+brew "wget"
+brew "jq"
+brew "gh"
+cask "google-chrome"
+cask "google-japanese-ime"
+cask "slack"
+cask "zoom"
+cask "microsoft-office"
+cask "the-unarchiver"
+cask "appcleaner"
+cask "rectangle"
+cask "font-noto-sans-cjk-jp"
+cask "font-noto-serif-cjk-jp"
+
+# ========================
+# 開発ツール（CLI）
+# ========================
+brew "node"
+brew "python@3.11"
+brew "pyenv"
+brew "nvm"
+brew "tmux"
+brew "fzf"
+brew "ripgrep"
+brew "bat"
+brew "tree"
+brew "google-cloud-sdk"
+
+# ========================
+# 開発ツール（GUI）
+# ========================
+cask "visual-studio-code"
+cask "cursor"
+cask "iterm2"
+cask "docker"
+cask "postman"
+cask "tableplus"
