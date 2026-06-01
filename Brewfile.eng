@@ -20,6 +20,7 @@ cask "appcleaner"
 cask "rectangle"
 cask "clipy"
 cask "alfred"
+cask "cheatsheet"
 cask "font-noto-sans-cjk-jp"
 cask "font-noto-serif-cjk-jp"
 

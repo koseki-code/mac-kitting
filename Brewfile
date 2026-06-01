@@ -32,6 +32,7 @@ cask "appcleaner"          # アプリの完全削除
 cask "rectangle"           # ウィンドウ管理（無料）
 cask "clipy"               # クリップボード履歴（無料）
 cask "alfred"              # ランチャー（無料。Powerpackは有料オプション）
+cask "cheatsheet"          # ⌘長押しでショートカット一覧表示（無料）
 
 # ========================
 # フォント
