@@ -34,9 +34,10 @@ echo "▶ マウス設定"
 # マウス速度 Max
 defaults write -g com.apple.mouse.scaling -float 3.0
 
-# I4: スクロール方向を従来式（Windowsと同じ向き）に
-# true=ナチュラル / false=従来（Win互換）
-defaults write -g com.apple.swipescrolldirection -bool false
+# スクロール方向は macOS 標準（ナチュラル）のまま
+# true=ナチュラル（mac標準） / false=従来（Win互換）
+# ※ 実機FBによりWin互換は不要、mac標準を採用（2026-06-01）
+defaults write -g com.apple.swipescrolldirection -bool true
 
 # ========================
 # キーボード
@@ -102,7 +103,11 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 # ========================
 echo "▶ Dock & デスクトップ設定"
 
-defaults write com.apple.dock tilesize -int 48
+# 通常時は小さいアイコン、マウスオーバーで拡大（拡大効果ON）
+# tilesize=通常サイズ(小) / largesize=拡大時サイズ
+defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock magnification -bool true
+defaults write com.apple.dock largesize -int 64
 defaults write com.apple.dock show-recents -bool false
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
