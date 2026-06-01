@@ -41,30 +41,37 @@ mkdir -p "$(dirname "$REPORT_FILE")"
     └ Google IME 設定 > 一般 で以下を確認:
        - サジェスト機能のオン/オフ（業務情報送信を嫌う場合はオフ推奨）
 
-  【3】セキュリティ系
+  【3】Rectangle にアクセシビリティ権限を許可 ★必須
+    └ Rectangle 起動時のダイアログで「システム設定を開く」をクリック
+    │  または: システム設定 > プライバシーとセキュリティ > アクセシビリティ
+    └ リストから「Rectangle」を見つけてトグルをオン → 認証パスワードを入力
+    └ Ctrl+Option+矢印キー でウィンドウが移動することを確認
+       （権限が無いとスナップ／ショートカットが一切効かない）
+
+  【4】セキュリティ系
     └ FileVault を有効化（システム設定 > プライバシーとセキュリティ）
     └ Jamf Now MDM のエンロール状態を確認
     └ 以下のコマンドを sudo 付きで実行（スクリプトでスキップされた場合）:
          sudo systemsetup -f -setremotelogin off
          sudo launchctl disable system/com.apple.smbd
 
-  【4】解析データ送信オフ（スクリプトで完全に切れない場合）
+  【5】解析データ送信オフ（スクリプトで完全に切れない場合）
     └ システム設定 > プライバシーとセキュリティ > 解析と機能向上
        「Macの解析を共有」「アプリ開発者と共有」を全てオフ
 
-  【5】業務アカウントの設定
+  【6】業務アカウントの設定
     └ Google Workspace（Gmail/Calendar/Drive）
     └ Chatwork
     └ Slack
     └ ANDPAD
     └ Microsoft 365 ライセンス認証（Office を使う場合）
 
-  【6】iCloud アカウント設定
+  【7】iCloud アカウント設定
     └ 業務用Apple IDを使用する場合のみログイン
     └ 「iCloud Drive > デスクトップと書類フォルダ」は必ずオフのまま
        （業務ファイルがiCloudに同期される事故を防ぐ）
 
-  【7】Time Machine バックアップ設定（必要に応じて）
+  【8】Time Machine バックアップ設定（必要に応じて）
 
 EOF
 } | tee "$REPORT_FILE"

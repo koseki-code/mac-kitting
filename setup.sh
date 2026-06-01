@@ -132,6 +132,10 @@ main() {
   # ※ 30-apps.sh の後でないと defaultbrowser/gh/jq が未インストールで失敗する
   run_module "60-chrome.sh"
 
+  # B-2: Rectangle設定（ウィンドウ管理・自動起動・スナップ）
+  # ※ 30-apps.sh の後でないと Rectangle.app が未インストールでスキップされる
+  run_module "65-rectangle.sh"
+
   run_module "99-report.sh"
 
   step "セットアップ完了"
