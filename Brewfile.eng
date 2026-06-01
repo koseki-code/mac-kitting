@@ -19,6 +19,7 @@ cask "the-unarchiver"
 cask "appcleaner"
 cask "rectangle"
 cask "clipy"
+cask "alfred"
 cask "font-noto-sans-cjk-jp"
 cask "font-noto-serif-cjk-jp"
 

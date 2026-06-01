@@ -31,6 +31,7 @@ cask "the-unarchiver"      # ZIP/RAR等の展開
 cask "appcleaner"          # アプリの完全削除
 cask "rectangle"           # ウィンドウ管理（無料）
 cask "clipy"               # クリップボード履歴（無料）
+cask "alfred"              # ランチャー（無料。Powerpackは有料オプション）
 
 # ========================
 # フォント
