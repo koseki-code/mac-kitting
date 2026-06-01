@@ -70,8 +70,18 @@ confirm() {
     log "非対話モード: 自動でyesと回答 ($prompt)"
     return 0
   fi
-  read -r -p "$prompt [y/N]: " response
-  [[ "$response" =~ ^[Yy]$ ]]
+  # `curl ... | bash` では stdin がスクリプト本体に占有されるため、
+  # キーボード入力は /dev/tty から直接読む。
+  if [[ -r /dev/tty ]]; then
+    local response
+    read -r -p "$prompt [y/N]: " response < /dev/tty
+    [[ "$response" =~ ^[Yy]$ ]]
+  else
+    warn "対話端末（/dev/tty）が見つかりません。"
+    warn "確認をスキップして実行するには NON_INTERACTIVE=1 を付けて再実行してください:"
+    warn "  curl -fsSL ${REPO_URL}/setup.sh | NON_INTERACTIVE=1 bash"
+    return 1
+  fi
 }
 
 # ========================
