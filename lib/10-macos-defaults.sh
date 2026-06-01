@@ -13,8 +13,10 @@ echo "現在のログインユーザーで実行: $(whoami)"
 # ========================
 echo "▶ トラックパッド設定"
 
-# タップでクリックを有効化
+# タップでクリックを有効化（macOS既定はOFF → ONにする）
+# 内蔵トラックパッドでも確実に効くよう -currentHost 版も明示的に書く
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults -currentHost write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -25,6 +27,12 @@ defaults write -g com.apple.trackpad.scaling -float 3.0
 # 3本指ドラッグを有効化
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+
+# アプリケーションエクスポゼ（macOS既定はOFF → ONにする）
+# 「その他のジェスチャ」内の項目。3〜4本指で下にスワイプすると、
+# いま使用中アプリの全ウィンドウを俯瞰できる（例: Chromeで複数ウィンドウを開いて行き来する時に便利）。
+# ※ 同じ指で「上」スワイプは Mission Control（全アプリのウィンドウ）。アプリ内俯瞰は「下」スワイプ。
+defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 
 # ========================
 # マウス（速度Max・スクロール方向はWin互換）
@@ -166,6 +174,9 @@ defaults write com.apple.sharingd DiscoverableMode -string "Contacts Only"
 # S6: Bluetoothメニューバー表示
 defaults -currentHost write com.apple.controlcenter.plist Bluetooth -int 18
 defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
+
+# S7: メニューバーのバッテリーをパーセント表示（残量が一目でわかる）
+defaults write com.apple.controlcenter BatteryShowPercentage -bool true
 
 # ========================
 # システム全般（地域・外観）
