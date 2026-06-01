@@ -2,7 +2,8 @@
 # 99-report.sh - 完了レポート
 set -euo pipefail
 
-readonly REPORT_FILE="${HOME}/.mac-kitting/logs/report-$(date +%Y%m%d-%H%M%S).txt"
+REPORT_FILE="${HOME}/.mac-kitting/logs/report-$(date +%Y%m%d-%H%M%S).txt"
+readonly REPORT_FILE
 
 mkdir -p "$(dirname "$REPORT_FILE")"
 

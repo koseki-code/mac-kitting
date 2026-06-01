@@ -21,7 +21,8 @@ readonly REPO_URL="https://raw.githubusercontent.com/koseki-code/mac-kitting/mai
 readonly PROFILE="${PROFILE:-general}"            # general | eng
 readonly NON_INTERACTIVE="${NON_INTERACTIVE:-0}"  # 1: プロンプトをスキップ
 readonly LOG_DIR="${HOME}/.mac-kitting/logs"
-readonly LOG_FILE="${LOG_DIR}/setup-$(date +%Y%m%d-%H%M%S).log"
+LOG_FILE="${LOG_DIR}/setup-$(date +%Y%m%d-%H%M%S).log"
+readonly LOG_FILE
 readonly WORK_DIR="${HOME}/.mac-kitting/work"
 
 # ========================

@@ -1,0 +1,29 @@
+name: ShellCheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shellcheck:
+    name: Lint shell scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck
+        run: |
+          set -euo pipefail
+          # 対象: エントリーポイント + lib/ 配下のスクリプト
+          files=$(find . -type f -name '*.sh' -not -path './.git/*')
+          echo "対象ファイル:"
+          echo "$files"
+          echo ""
+          # SC1091: source 先の追跡不可（curl で取得する設計のため抑制）
+          shellcheck --severity=warning --exclude=SC1091 $files
