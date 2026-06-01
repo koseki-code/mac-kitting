@@ -156,11 +156,26 @@ curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/setup.
 
 ---
 
-## 4.5 未決定事項（要ユーザー判断）
+## 4.5 確定済み / 未決定事項
 
-| 項目 | 内容 | 選択肢 |
+### 確定済み
+
+- **sudo実行方針 = 選択肢A（2026-06-01 確定）**
+  スクリプトは一般ユーザー権限（`curl ... | bash`）で実行する。root必須の2項目
+  （S3: 解析データ送信オフ / S5: ファイル共有・リモートログイン無効）は `sudo -n` を試行し、
+  権限がなければスキップして警告を出す。完了レポート（99-report.sh）で手動実行を誘導する。
+  - 採用理由: S5 は Jamf Now MDM のセキュリティ担当領域と重複する／月数台規模で手動2コマンドの
+    コストは小さい／選択肢B（root実行 + `SUDO_USER`振り分け）はバグを生みやすく検証負担が増える。
+  - キッティング担当者は完了レポートの【3】【4】に従い、必要なら手動で以下を実行:
+    ```bash
+    sudo systemsetup -setremotelogin off
+    sudo launchctl disable system/com.apple.smbd
+    ```
+
+### 未決定事項
+
+| 項目 | 内容 | 対応タイミング |
 |---|---|---|
-| **sudo実行方針** | 10-macos-defaults.sh の一部（解析データ送信オフ・ファイル共有/SSH無効）は sudo 必須 | **A**: 現状実装。`sudo -n` で試行→失敗時スキップ＋レポート誘導 / **B**: `curl ... \| sudo bash` で最初からroot実行（`SUDO_USER`判定でユーザー設定は元ユーザー実行が必要） |
 | **Caps Lock トグルの実効性** | `TISRomajiKeyEnabled`/`TISKanaKeyEnabled` が実機で効くか未検証 | 検証Macテスト時に確認 |
 | **プリンタ拠点調査** | 山形/宮城/福島の既存Macで `01-investigation.md` を実行し inventory を埋める | 拠点ごとに順次 |
 
