@@ -128,6 +128,10 @@ main() {
   run_module "20-homebrew.sh"
   run_module "30-apps.sh"
 
+  # B-1: Chrome設定（既定ブラウザ・ポリシー・ブックマーク・拡張機能）
+  # ※ 30-apps.sh の後でないと defaultbrowser/gh/jq が未インストールで失敗する
+  run_module "60-chrome.sh"
+
   run_module "99-report.sh"
 
   step "セットアップ完了"

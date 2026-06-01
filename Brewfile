@@ -9,6 +9,7 @@ brew "git"
 brew "wget"
 brew "jq"
 brew "gh"            # GitHub CLI（情シス操作で必須）
+brew "defaultbrowser" # 既定ブラウザの自動切り替え（60-chrome.sh で使用）
 
 # ========================
 # 業務アプリ
