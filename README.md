@@ -81,6 +81,7 @@ brew bundle --file=~/.mac-kitting/work/Brewfile
 ### スクリプトのテスト
 
 VM や Docker での完全テストは難しいので、**サブの検証用Mac**で実行することを推奨。
+通しテストの具体的な手順・検証チェックリストは [TESTING.md](./TESTING.md) を参照。
 
 ### 変更フロー
 
