@@ -39,14 +39,17 @@ sudo を求められず最後まで流れ、`⚠ sudo権限なし: ...スキッ�
 ```bash
 defaults read -g com.apple.trackpad.scaling          # → 3  （トラックパッド速度Max）
 defaults read -g com.apple.mouse.scaling             # → 3  （マウス速度Max）
-defaults read -g com.apple.swipescrolldirection      # → 0  （スクロールWin互換）
+defaults read -g com.apple.swipescrolldirection      # → 1  （スクロール方向 mac標準/ナチュラル）
 defaults read NSGlobalDomain KeyRepeat               # → 2  （キーリピート最速）
 defaults -currentHost read com.apple.screensaver idleTime   # → 300（5分）
 defaults read com.apple.screensaver askForPassword   # → 1  （即パスワード）
 defaults read com.apple.menuextra.clock DateFormat   # → yyyy/MM/dd(EEE)  HH:mm:ss
 defaults read com.apple.finder AppleShowAllFiles     # → 1  （隠しファイル表示）
 defaults read com.apple.dock autohide                # → 1  （Dock自動非表示）
+defaults read com.apple.dock magnification           # → 1  （Dock拡大効果ON）
 defaults read com.apple.dock mru-spaces              # → 0  （自動並び替え無効）
+defaults read com.apple.controlcenter BatteryShowPercentage  # → 1  （バッテリー％表示）
+defaults read NSGlobalDomain com.apple.mouse.tapBehavior     # → 1  （タップでクリック）
 
 # ライトモード = キーが存在しない状態が正解（下はエラーになればOK）
 defaults read -g AppleInterfaceStyle 2>&1            # → "does not exist" ならライト固定OK
@@ -62,7 +65,9 @@ defaults read -g AppleInterfaceStyle 2>&1            # → "does not exist" な�
 ### チェックリスト
 
 - [ ] トラックパッド/マウス速度 Max
-- [ ] スクロール方向 Win互換
+- [ ] スクロール方向 mac標準（ナチュラル）
+- [ ] タップでクリック ON
+- [ ] バッテリー％表示 / Dock拡大効果
 - [ ] キーリピート最速
 - [ ] スクリーンセーバー5分 + 即パスワード
 - [ ] メニュー時計の曜日・秒表示
@@ -107,8 +112,57 @@ cat ~/.mac-kitting/logs/setup-*.log    # 全工程のログ
 - [ ] プリチェックが正常表示
 - [ ] 確認プロンプトで中断/続行が機能
 - [ ] Homebrew 導入成功
-- [ ] Brewfile のアプリが導入された
+- [ ] Brewfile のアプリが導入された（`brew list --cask` に google-chrome / rectangle 等が並ぶ）
 - [ ] 完了レポートが出力・保存された
+
+> ⚠ **既知バグの回帰確認（2026-06-02 修正）**: 以前、brew が後続モジュールの PATH に
+> 引き継がれず `30-apps.sh` が何もインストールせず「完了」していた。フル実行後に
+> `brew list --cask` が空でないこと、ログに `brew を PATH に追加` が出ることを必ず確認する。
+
+---
+
+## ★ B-1 Chrome / B-2 Rectangle の検証（追加分）
+
+`30-apps.sh` で Chrome / Rectangle / defaultbrowser / gh / jq が入った後に
+`60-chrome.sh` → `65-rectangle.sh` が走る。フル実行後に以下を確認する。
+
+### B-1 Chrome
+
+実行中の想定挙動:
+- 🪟 `defaultbrowser chrome` 実行時に macOS が既定ブラウザ変更ダイアログを出すことがある → **「Chromeを使用」をクリック**
+- `mac-kitting-private` 未作成のため `gh api` は404 → ログに `パブリックのみで進めます`（**これが正常**）
+
+Chrome を起動し `chrome://policy` を開く:
+
+| ポリシー | 期待値 |
+|---|---|
+| BackgroundModeEnabled | false |
+| MetricsReportingEnabled | false |
+| SafeBrowsingEnabled | true |
+| AutofillCreditCardEnabled | false |
+| ManagedBookmarks | 「EXCEED 業務リンク」配下に Workspace/Drive/Calendar/Gemini/ANDPAD 等10件 |
+| ExtensionInstallForcelist | `aajlpbohkcfpmgeamipkmpllmgjmmmpa`（CrowdLog） |
+
+```bash
+sudo defaults read com.google.Chrome 2>/dev/null | grep -E "BackgroundMode|SafeBrowsing|Autofill"
+```
+
+- [ ] 既定ブラウザが Chrome（システム設定 > デスクトップとDock > 既定のWebブラウザ）
+- [ ] ブックマークバーに「EXCEED 業務リンク」フォルダ
+- [ ] `chrome://extensions` に CrowdLog が自動インストール（数秒〜数十秒）
+- [ ] （sudo未認証時）`WARN: sudo権限なし...スキップ` が出る → `sudo bash ~/.mac-kitting/work/60-chrome.sh` で再実行
+
+### B-2 Rectangle
+
+```bash
+defaults read com.knollsoft.Rectangle launchOnLogin     # → 1
+defaults read com.knollsoft.Rectangle windowSnapping    # → 1
+```
+
+- [ ] メニューバーに Rectangle アイコン
+- [ ] **アクセシビリティ権限を手動付与**（完了レポート【3】）: システム設定 > プライバシーとセキュリティ > アクセシビリティ で Rectangle をオン
+- [ ] 権限付与後、**Ctrl+Option+矢印** でウィンドウが左右半分にスナップ
+- [ ] マウスで画面端へドラッグしてスナップ
 
 ---
 

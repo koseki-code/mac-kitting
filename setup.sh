@@ -126,6 +126,20 @@ main() {
   # ※ プロファイル（general/eng）の差分は 30-apps.sh の Brewfile 選択で吸収する
   run_module "10-macos-defaults.sh"
   run_module "20-homebrew.sh"
+
+  # 20-homebrew.sh は別プロセスで brew を入れるため、その shellenv は親に伝播しない。
+  # ここで親プロセスの PATH に brew を通し、以降の子モジュール(30/60/65)へ継承させる。
+  # これをしないと 30-apps.sh で brew が見つからず、何もインストールされない。
+  if ! command -v brew >/dev/null 2>&1; then
+    for _p in /opt/homebrew /usr/local; do
+      if [[ -x "${_p}/bin/brew" ]]; then
+        eval "$("${_p}/bin/brew" shellenv)"
+        ok "brew を PATH に追加: ${_p}/bin"
+        break
+      fi
+    done
+  fi
+
   run_module "30-apps.sh"
 
   # B-1: Chrome設定（既定ブラウザ・ポリシー・ブックマーク・拡張機能）

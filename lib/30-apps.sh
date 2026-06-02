@@ -8,6 +8,18 @@ readonly BREWFILE_PATH="${HOME}/.mac-kitting/work/Brewfile"
 
 mkdir -p "$(dirname "$BREWFILE_PATH")"
 
+# brew を PATH に通す（単体実行やサブシェルで PATH 未継承のとき用の保険）。
+# これが無いと brew bundle が「command not found」になり、|| で握り潰され空振りする。
+if ! command -v brew >/dev/null 2>&1; then
+  for _p in /opt/homebrew /usr/local; do
+    if [[ -x "${_p}/bin/brew" ]]; then eval "$("${_p}/bin/brew" shellenv)"; break; fi
+  done
+fi
+if ! command -v brew >/dev/null 2>&1; then
+  echo "ERROR: brew が見つかりません。20-homebrew.sh が成功しているか確認してください" >&2
+  exit 1
+fi
+
 # プロファイルに対応する Brewfile を明示的に選択する
 #   general → Brewfile      （標準・一般職向け）
 #   eng     → Brewfile.eng  （標準 + 開発ツール）

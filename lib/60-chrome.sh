@@ -15,6 +15,14 @@ readonly PRIVATE_BOOKMARKS_PATH="managed_bookmarks_private.json"
 
 mkdir -p "${WORK_DIR}"
 
+# brew を PATH に通す（単体実行やサブシェルで PATH 未継承のとき用の保険）。
+# defaultbrowser / gh / jq はいずれも brew 配下のため、これが無いと全て command not found になる。
+if ! command -v brew >/dev/null 2>&1; then
+  for _p in /opt/homebrew /usr/local; do
+    if [[ -x "${_p}/bin/brew" ]]; then eval "$("${_p}/bin/brew" shellenv)"; break; fi
+  done
+fi
+
 # ========================
 # 1. 既定ブラウザ化
 # ========================
