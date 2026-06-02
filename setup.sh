@@ -86,6 +86,30 @@ confirm() {
 }
 
 # ========================
+# sudo キープアライブ
+# ========================
+# 長い brew bundle（15〜40分）の間に sudo の認証キャッシュ（約5分）が失効すると、
+# 後続の 60-chrome.sh 等で `sudo -n` が失敗し Managed Policies が丸ごとスキップされる
+# （= ブックマーク等が適用されない）。事前に sudo が取れていれば、裏でタイムスタンプを
+# 更新し続けてキャッシュを生かしておく。取れていなければ選択肢A方針どおり警告のみ。
+SUDO_KEEPALIVE_PID=""
+start_sudo_keepalive() {
+  if sudo -n true 2>/dev/null; then
+    sudo -v 2>/dev/null || true
+    # 親プロセスが生きている間、50秒ごとに sudo タイムスタンプを更新
+    ( while kill -0 "$$" 2>/dev/null; do sudo -n true 2>/dev/null || true; sleep 50; done ) &
+    SUDO_KEEPALIVE_PID=$!
+    ok "sudo キープアライブを開始（長時間の導入中もポリシー適用が有効）"
+  else
+    warn "sudo 未認証のまま継続します（Chromeポリシー/サービス無効化はスキップされます）"
+    warn "完全適用したい場合は Ctrl+C で中断 → 'sudo -v' 実行 → 再実行してください"
+  fi
+}
+stop_sudo_keepalive() {
+  [[ -n "${SUDO_KEEPALIVE_PID}" ]] && kill "${SUDO_KEEPALIVE_PID}" 2>/dev/null || true
+}
+
+# ========================
 # モジュール実行
 # ========================
 run_module() {
@@ -121,6 +145,11 @@ main() {
     warn "ユーザーが中断しました"
     exit 0
   fi
+
+  # 長時間の導入中に sudo キャッシュを失効させない（Chromeポリシー等のスキップ防止）。
+  # スクリプト終了時（正常・異常問わず）にキープアライブを確実に停止する。
+  trap stop_sudo_keepalive EXIT
+  start_sudo_keepalive
 
   # 順次実行（失敗したら止める）
   # ※ プロファイル（general/eng）の差分は 30-apps.sh の Brewfile 選択で吸収する

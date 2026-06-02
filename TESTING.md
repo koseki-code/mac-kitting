@@ -115,9 +115,13 @@ cat ~/.mac-kitting/logs/setup-*.log    # 全工程のログ
 - [ ] Brewfile のアプリが導入された（`brew list --cask` に google-chrome / rectangle 等が並ぶ）
 - [ ] 完了レポートが出力・保存された
 
-> ⚠ **既知バグの回帰確認（2026-06-02 修正）**: 以前、brew が後続モジュールの PATH に
-> 引き継がれず `30-apps.sh` が何もインストールせず「完了」していた。フル実行後に
-> `brew list --cask` が空でないこと、ログに `brew を PATH に追加` が出ることを必ず確認する。
+> ⚠ **既知バグの回帰確認（2026-06-02 修正）**:
+> 1. brew が後続モジュールの PATH に引き継がれず `30-apps.sh` が何もインストールせず「完了」していた
+>    → フル実行後に `brew list --cask` が空でないこと、ログに `brew を PATH に追加` が出ることを確認。
+> 2. 長い `brew bundle` 中に sudo キャッシュが失効し、`60-chrome.sh` の Chrome ポリシー
+>    （ブックマーク等）が丸ごとスキップされていた → setup.sh に **sudo キープアライブ** を実装。
+>    ログに `sudo キープアライブを開始` が出れば有効。出ていれば ⌘+Shift+B でバー右端に
+>    「EXCEED 業務リンク」が出る。万一スキップされたら `sudo bash ~/.mac-kitting/work/60-chrome.sh` で再適用。
 
 ---
 
