@@ -179,6 +179,10 @@ main() {
   # ※ 30-apps.sh の後でないと Rectangle.app が未インストールでスキップされる
   run_module "65-rectangle.sh"
 
+  # OBS Studio（セミナー録画用）: インストール + 録画設定テンプレート配置 + 権限案内
+  # ※ OBS は必須ソフトではないため、モジュール内部で失敗しても exit 0 で継続する
+  run_module "70-obs.sh"
+
   run_module "99-report.sh"
 
   step "セットアップ完了"
