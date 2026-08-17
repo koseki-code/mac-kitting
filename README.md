@@ -44,7 +44,18 @@ curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/setup.
 | 10-macos-defaults | トラックパッド・キーボード・Finder・Dock等の設定 | 10秒 |
 | 20-homebrew | Homebrewのインストール | 3〜5分 |
 | 30-apps | Brewfile に従ってアプリ一括インストール | 15〜40分 |
+| 60-chrome | Chrome 既定ブラウザ化・ポリシー・ブックマーク | 30秒 |
+| 65-rectangle | Rectangle（ウィンドウ管理）の設定 | 30秒 |
+| 70-obs | OBS Studio（セミナー録画用）のインストールと録画設定配置 | 2〜5分 |
 | 99-report | 完了レポート出力 | 即時 |
+
+### OBS Studio について
+
+- 録画設定（シーン・出力・音声トラック分離）はテンプレートを自動配置するため、
+  ユーザーの作業は**画面収録・マイク権限をオンにするだけ**。手順は
+  [OBS 権限設定手順](./docs/obs-permissions.md) を参照。
+- 画面収録・マイク権限の付与は macOS の仕様（TCC/SIP）により自動化不可。
+- 設定テンプレートの採取・更新手順は [assets/obs/README.md](./assets/obs/README.md) を参照。
 
 ## セキュリティポリシー
 
@@ -126,6 +137,7 @@ VM や Docker での完全テストは難しいので、**サブの検証用Mac*
 ## 関連ドキュメント
 
 - [プリンタ設定手順書](./docs/printer-setup/README.md) — Fujifilm Apeos プリンタの手動セットアップ手順（本スクリプトの範囲外）
+- [OBS 権限設定手順](./docs/obs-permissions.md) — 画面収録・マイク権限の手動許可手順と録画のはじめかた
 
 ## ライセンス
 
