@@ -44,7 +44,12 @@ Jamf Now でカスタム構成プロファイルを配布できる場合、`Scre
 なしで自分で許可できるようになる。
 
 - プロファイルは iMazing Profile Editor 等で作成可能
-- カスタムプロファイルのアップロード可否は Jamf Now の契約プランに依存するため要確認
+- **カスタムプロファイルは Jamf Now の Plus プランでのみ利用可能**（Fundamentals プランでは不可）。
+  自社の契約プランを確認し、Fundamentals の場合はプランアップグレードの要否を判断する
+  - 参考: [Custom Profiles in Jamf Now](https://support.jamf.com/en/articles/11030452-custom-profiles-in-jamf-now) /
+    [How To Create and Upload a Custom Profile to Jamf Now (iMazing)](https://imazing.com/guides/how-to-upload-configuration-profile-jamf-now)
+- PPPC の `AllowStandardUserToSetSystemService` は `ScreenCapture` と `ListenEvent` の
+  2サービスに対してのみ設定可能（macOS の仕様）
 
 ## トラブルシューティング
 
