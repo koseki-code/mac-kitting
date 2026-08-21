@@ -10,6 +10,7 @@ brew "wget"
 brew "jq"
 brew "gh"            # GitHub CLI（情シス操作で必須）
 brew "defaultbrowser" # 既定ブラウザの自動切り替え（60-chrome.sh で使用）
+brew "dockutil"       # Dock の並び替え・不要アプリ削除（80-dock-login.sh で使用）
 
 # ========================
 # 業務アプリ
@@ -20,6 +21,8 @@ cask "google-japanese-ime"
 cask "slack"
 cask "zoom"
 cask "typeless"            # AI音声入力（初回起動時にマイク・アクセシビリティ権限が必要）
+cask "claude"              # Claude デスクトップアプリ（Anthropic 公式）
+cask "codex-app"           # Codex デスクトップアプリ（OpenAI 公式）
 
 # ========================
 # Microsoft 製品（Office / Teams）は標準では導入しない。必要な端末のみ手動:

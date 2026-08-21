@@ -183,6 +183,10 @@ main() {
   # ※ OBS は必須ソフトではないため、モジュール内部で失敗しても exit 0 で継続する
   run_module "70-obs.sh"
 
+  # 常駐アプリの初回起動・ログイン項目登録・Dock 整理
+  # ※ 30-apps.sh / 70-obs.sh の後でないとアプリが無くスキップされる
+  run_module "80-dock-login.sh"
+
   run_module "99-report.sh"
 
   step "セットアップ完了"
