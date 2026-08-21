@@ -4,7 +4,8 @@
 # 内容:
 # 1. 常駐させたいアプリを一度起動する（初回起動ダイアログ・権限要求を出させる）
 # 2. 同アプリを「ログイン項目」に登録し、次回ログイン以降は自動で開くようにする
-# 3. Dock を整理する（Apple 標準の不要アプリを全削除 → 業務アプリのみ並べる）
+# 3. Dock を整理する（Apple 標準の不要アプリを名指しで削除 → 業務アプリを追加。
+#    Jamf Now の Web クリップや既存配置はそのまま残す）
 #
 # 注意:
 # - ログイン項目の登録は osascript (System Events) を使う。初回のみ
@@ -50,6 +51,33 @@ DOCK_APPS=(
   "/Applications/Rectangle.app"
   "/Applications/RunCat.app"
   "/System/Applications/System Settings.app"
+)
+
+# Dock から削除する Apple 標準アプリ（名指しで消す。ここに無いものは触らない）
+# ※ Jamf Now (MDM) が差し込む Web クリップや、手動で置いたアプリはそのまま残る
+DOCK_REMOVE=(
+  "Safari"
+  "Messages"
+  "Mail"
+  "Maps"
+  "Photos"
+  "FaceTime"
+  "Calendar"
+  "Contacts"
+  "Reminders"
+  "Notes"
+  "Freeform"
+  "TV"
+  "Music"
+  "News"
+  "Podcasts"
+  "Keynote"
+  "Numbers"
+  "Pages"
+  "App Store"
+  "iPhone Mirroring"
+  "Launchpad"
+  "Apps"
 )
 
 # MDM (Jamf Now) 配布アプリ。未着でもエラーにせず案内のみ
@@ -118,22 +146,36 @@ echo "▶ Dock 整理"
 if ! command -v dockutil >/dev/null 2>&1; then
   echo "WARN: dockutil が見つかりません（Brewfile の brew \"dockutil\" が未導入）。Dock 整理をスキップします"
 else
-  # Apple 標準の Safari/Messages/Maps/Photos/Music/TV/News/Pages 等をまとめて消す
-  dockutil --remove all --no-restart >/dev/null 2>&1 || true
-  echo "  - 既存の Dock アプリを全削除"
-
-  for path in "${DOCK_APPS[@]}"; do
-    if [[ -d "$path" ]]; then
-      dockutil --add "$path" --no-restart >/dev/null 2>&1 \
-        && echo "  - 追加: $(basename "$path" .app)" \
-        || echo "  - WARN: 追加失敗: $(basename "$path" .app)"
-    else
-      echo "  - 未インストールのため省略: $(basename "$path" .app)"
+  # Apple 標準アプリだけを名指しで削除する（--remove all は使わない。
+  # MDM の Web クリップまで消えてしまうため）
+  for label in "${DOCK_REMOVE[@]}"; do
+    if dockutil --find "$label" >/dev/null 2>&1; then
+      dockutil --remove "$label" --no-restart >/dev/null 2>&1 \
+        && echo "  - 削除: ${label}" \
+        || echo "  - WARN: 削除失敗: ${label}"
     fi
   done
 
-  # ダウンロードフォルダ（右側のスタック）は残す
-  dockutil --add "${HOME}/Downloads" --view fan --display stack --section others --no-restart >/dev/null 2>&1 || true
+  # 業務アプリを追加（既に Dock にあるものはスキップして並びを壊さない）
+  for path in "${DOCK_APPS[@]}"; do
+    label="$(basename "$path" .app)"
+    if [[ ! -d "$path" ]]; then
+      echo "  - 未インストールのため省略: ${label}"
+      continue
+    fi
+    if dockutil --find "$label" >/dev/null 2>&1; then
+      echo "  - 配置済み: ${label}"
+      continue
+    fi
+    dockutil --add "$path" --no-restart >/dev/null 2>&1 \
+      && echo "  - 追加: ${label}" \
+      || echo "  - WARN: 追加失敗: ${label}"
+  done
+
+  # ダウンロードフォルダ（右側のスタック）が無ければ追加
+  if ! dockutil --find "Downloads" >/dev/null 2>&1; then
+    dockutil --add "${HOME}/Downloads" --view fan --display stack --section others --no-restart >/dev/null 2>&1 || true
+  fi
 
   killall Dock 2>/dev/null || true
   echo "  - Dock を再起動して反映"
