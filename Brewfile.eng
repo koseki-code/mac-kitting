@@ -12,6 +12,7 @@ brew "jq"
 brew "gh"
 brew "defaultbrowser"
 cask "google-chrome"
+cask "chrome-remote-desktop-host" # Chrome リモートデスクトップ（ホスト側 pkg。要 sudo）
 cask "google-japanese-ime"
 cask "slack"
 cask "zoom"
