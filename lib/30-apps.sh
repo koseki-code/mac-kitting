@@ -44,8 +44,25 @@ cat "$BREWFILE_PATH"
 echo "------------------------"
 echo ""
 
-brew bundle --file="$BREWFILE_PATH" --no-lock || {
+# ※ `--no-lock` は Homebrew 6.x で廃止され、付けると brew bundle が
+#    "Error: invalid option: --no-lock" でヘルプを出して即終了し、
+#    Brewfile のアプリが1つも入らない（2026-08-21 の実機キッティングで発生）。
+#    Brewfile.lock.json の生成抑止は環境変数で行う。
+export HOMEBREW_BUNDLE_NO_LOCK=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+if ! brew bundle install --file="$BREWFILE_PATH"; then
   echo "WARN: 一部アプリのインストールに失敗。ログを確認してください"
-}
+fi
+
+# 実際に何が入らなかったかを明示する（WARN だけだと見落とされるため）
+echo ""
+echo "--- Brewfile 充足チェック ---"
+if brew bundle check --file="$BREWFILE_PATH" --verbose; then
+  echo "Brewfile の全項目がインストール済みです"
+else
+  echo "WARN: 上記の項目が未インストールです。以下で個別に再試行してください:"
+  echo "      brew bundle install --file=\"$BREWFILE_PATH\""
+fi
+echo "-----------------------------"
 
 echo "アプリインストール 完了"
