@@ -15,6 +15,7 @@ brew "defaultbrowser" # 既定ブラウザの自動切り替え（60-chrome.sh �
 # 業務アプリ
 # ========================
 cask "google-chrome"
+cask "chrome-remote-desktop-host" # Chrome リモートデスクトップ（ホスト側 pkg。要 sudo）
 cask "google-japanese-ime"
 cask "slack"
 cask "zoom"
