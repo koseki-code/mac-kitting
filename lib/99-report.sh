@@ -25,6 +25,26 @@ mkdir -p "$(dirname "$REPORT_FILE")"
   echo "▼ インストール済みCLI（Brew Formula）"
   brew list --formula 2>/dev/null | sed 's/^/  - /' || echo "  (brew未インストール)"
   echo ""
+  echo "▼ Brewfile 未インストール項目（空なら全て導入済み）"
+  if [[ -f "${HOME}/.mac-kitting/work/Brewfile" ]] && command -v brew >/dev/null 2>&1; then
+    brew bundle check --file="${HOME}/.mac-kitting/work/Brewfile" --verbose 2>/dev/null \
+      | grep -E '^\s*→' | sed 's/^/  /' || true
+  else
+    echo "  (Brewfile が見つからないため判定不可)"
+  fi
+  echo ""
+  echo "▼ Google 日本語入力"
+  if [[ -d "/Library/Input Methods/GoogleJapaneseInput.app" ]]; then
+    echo "  インストール: OK"
+    if defaults read com.apple.HIToolbox AppleEnabledInputSources 2>/dev/null | grep -q com.google.inputmethod.Japanese; then
+      echo "  入力ソース有効化: OK"
+    else
+      echo "  入力ソース有効化: 未（下記【2】の手動作業が必要）"
+    fi
+  else
+    echo "  インストール: NG ★ brew install --cask google-japanese-ime を実行してください"
+  fi
+  echo ""
   echo "════════════════════════════════════════════════════════════════"
   echo "▼ 必ず手動で行う作業（情シス担当者向け）"
   echo "════════════════════════════════════════════════════════════════"
