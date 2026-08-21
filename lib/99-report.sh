@@ -84,7 +84,7 @@ mkdir -p "$(dirname "$REPORT_FILE")"
     └ Chatwork
     └ Slack
     └ ANDPAD
-    └ Microsoft 365 ライセンス認証（Teams / 手動導入した Office を使う場合）
+    └ Microsoft 365 ライセンス認証（Office / Teams を手動導入した場合のみ）
 
   【7】iCloud アカウント設定
     └ 業務用Apple IDを使用する場合のみログイン

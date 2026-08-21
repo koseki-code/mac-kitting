@@ -44,7 +44,7 @@ Composer + 署名済みパッケージ経由で配信する方法はあるが、
 | トラックパッド・キーボード | **本スクリプト** | 初期値のみ |
 | Finder/Dock設定 | **本スクリプト** | 初期値のみ |
 | Homebrew導入 | **本スクリプト** | - |
-| 業務アプリ一括導入 | **本スクリプト** | Chrome, Slack, Teams 等 |
+| 業務アプリ一括導入 | **本スクリプト** | Chrome, Slack, Zoom 等 |
 | Google IME 入力ソース切替 | 手動 | レポートで誘導（自動化は不安定） |
 | プリンタ設定 | 手動 | `docs/printer-setup/` 手順書ベース |
 | 業務アカウント設定 | 手動 | Google Workspace, Chatwork, ANDPAD |

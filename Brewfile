@@ -20,9 +20,9 @@ cask "slack"
 cask "zoom"
 
 # ========================
-# Microsoft（Office 本体は不要のため導入しない。必要な端末のみ手動: brew install --cask microsoft-office）
+# Microsoft 製品（Office / Teams）は標準では導入しない。必要な端末のみ手動:
+#   brew install --cask microsoft-office microsoft-teams
 # ========================
-cask "microsoft-teams"
 
 # ========================
 # ユーティリティ
