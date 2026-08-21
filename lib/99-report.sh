@@ -27,8 +27,8 @@ mkdir -p "$(dirname "$REPORT_FILE")"
   echo ""
   echo "▼ Brewfile 未インストール項目（空なら全て導入済み）"
   if [[ -f "${HOME}/.mac-kitting/work/Brewfile" ]] && command -v brew >/dev/null 2>&1; then
-    brew bundle check --file="${HOME}/.mac-kitting/work/Brewfile" --verbose 2>/dev/null \
-      | grep -E '^\s*→' | sed 's/^/  /' || true
+    brew bundle check --file="${HOME}/.mac-kitting/work/Brewfile" --verbose 2>&1 \
+      | grep -E '^\s*→' | sed 's/^/  /' || echo "  (なし)"
   else
     echo "  (Brewfile が見つからないため判定不可)"
   fi
