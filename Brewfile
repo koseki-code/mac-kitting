@@ -18,6 +18,7 @@ cask "google-chrome"
 cask "google-japanese-ime"
 cask "slack"
 cask "zoom"
+cask "typeless"            # AI音声入力（初回起動時にマイク・アクセシビリティ権限が必要）
 
 # ========================
 # Microsoft 製品（Office / Teams）は標準では導入しない。必要な端末のみ手動:
