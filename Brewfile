@@ -22,7 +22,7 @@ cask "slack"
 cask "zoom"
 cask "typeless"            # AI音声入力（初回起動時にマイク・アクセシビリティ権限が必要）
 cask "claude"              # Claude デスクトップアプリ（Anthropic 公式）
-cask "codex-app"           # Codex デスクトップアプリ（OpenAI 公式）
+cask "chatgpt"             # ChatGPT デスクトップアプリ（OpenAI 公式）
 
 # ========================
 # Microsoft 製品（Office / Teams）は標準では導入しない。必要な端末のみ手動:
