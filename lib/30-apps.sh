@@ -50,8 +50,37 @@ echo ""
 #    Brewfile.lock.json の生成抑止は環境変数で行う。
 export HOMEBREW_BUNDLE_NO_LOCK=1
 export HOMEBREW_NO_AUTO_UPDATE=1
+# Homebrew 6.x の brew bundle は「全項目を fetch → 成功したら一括 install」の動きで、
+# 1件でもダウンロードに失敗（配布元の 404 等）すると残り全件が未インストールのまま終わる。
+# そのため bundle が失敗したら、1項目ずつ brew install に切り替えて道連れを防ぐ。
 if ! brew bundle install --file="$BREWFILE_PATH"; then
-  echo "WARN: 一部アプリのインストールに失敗。ログを確認してください"
+  echo ""
+  echo "WARN: brew bundle が失敗。1項目ずつ個別インストールに切り替えます"
+  FAILED_ITEMS=()
+  while IFS= read -r line; do
+    line="${line%%#*}"
+    kind="$(echo "$line" | awk '{print $1}')"
+    name="$(echo "$line" | sed -n 's/^[a-z]* *"\([^"]*\)".*/\1/p')"
+    [[ -z "$name" ]] && continue
+    case "$kind" in
+      brew)
+        brew list --formula "$name" >/dev/null 2>&1 && continue
+        brew install --formula "$name" || FAILED_ITEMS+=("formula:${name}")
+        ;;
+      cask)
+        brew list --cask "$name" >/dev/null 2>&1 && continue
+        brew install --cask "$name" || FAILED_ITEMS+=("cask:${name}")
+        ;;
+      tap)
+        brew tap "$name" || FAILED_ITEMS+=("tap:${name}")
+        ;;
+    esac
+  done < "$BREWFILE_PATH"
+  if (( ${#FAILED_ITEMS[@]} > 0 )); then
+    echo ""
+    echo "WARN: 以下はインストールできませんでした（配布元の障害等）:"
+    printf '  ✘ %s\n' "${FAILED_ITEMS[@]}"
+  fi
 fi
 
 # 実際に何が入らなかったかを明示する（WARN だけだと見落とされるため）
