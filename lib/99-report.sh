@@ -61,6 +61,19 @@ mkdir -p "$(dirname "$REPORT_FILE")"
     └ Google IME 設定 > 一般 で以下を確認:
        - サジェスト機能のオン/オフ（業務情報送信を嫌う場合はオフ推奨）
 
+  【2'】常駐アプリの起動確認とログイン時自動起動（80-dock-login.sh が自動設定済み）
+    └ 対象: Alfred 5 / Clipy / AppCleaner / PDFgear / OBS Studio / Rectangle / RunCat
+    └ 各アプリが起動しているか（メニューバー右上のアイコン）を確認し、
+       初回ダイアログ（権限許可・チュートリアル）があれば済ませる
+    └ システム設定 > 一般 > ログイン項目と機能拡張 の「ログイン時に開く」に
+       上記アプリが並んでいることを確認。無ければ「+」から追加
+       （スクリプト実行時に「System Events の制御を許可」を拒否すると未登録になる）
+    └ PDFgear / RunCat は Jamf Now 配布のため、未着なら配布後に以下を再実行:
+         bash <(curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/lib/80-dock-login.sh)
+    └ Dock は 業務アプリのみ（Chrome / Slack / Zoom / Claude / Codex / Typeless / PDFgear /
+       OBS / Alfred / Clipy / AppCleaner / Rectangle / RunCat / システム設定）に整理済み。
+       並びを変えたい場合は lib/80-dock-login.sh の DOCK_APPS を編集
+
   【3】Rectangle にアクセシビリティ権限を許可 ★必須
     └ Rectangle 起動時のダイアログで「システム設定を開く」をクリック
     │  または: システム設定 > プライバシーとセキュリティ > アクセシビリティ
