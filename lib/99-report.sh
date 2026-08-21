@@ -70,7 +70,7 @@ mkdir -p "$(dirname "$REPORT_FILE")"
        （スクリプト実行時に「System Events の制御を許可」を拒否すると未登録になる）
     └ PDFgear / RunCat は Jamf Now 配布のため、未着なら配布後に以下を再実行:
          bash <(curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/lib/80-dock-login.sh)
-    └ Dock は 業務アプリのみ（Chrome / Slack / Zoom / Claude / Codex / Typeless / PDFgear /
+    └ Dock は 業務アプリのみ（Chrome / Slack / Zoom / Claude / ChatGPT / Typeless / PDFgear /
        OBS / Alfred / Clipy / AppCleaner / Rectangle / RunCat / システム設定）に整理済み。
        並びを変えたい場合は lib/80-dock-login.sh の DOCK_APPS を編集
 

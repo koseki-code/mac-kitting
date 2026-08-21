@@ -40,7 +40,7 @@ DOCK_APPS=(
   "/Applications/Slack.app"
   "/Applications/zoom.us.app"
   "/Applications/Claude.app"
-  "/Applications/Codex.app"
+  "/Applications/ChatGPT.app"
   "/Applications/Typeless.app"
   "/Applications/PDFgear.app"
   "/Applications/OBS.app"
