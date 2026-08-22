@@ -54,7 +54,7 @@ DOCK_APPS=(
 )
 
 # Dock から削除する Apple 標準アプリ（名指しで消す。ここに無いものは触らない）
-# ※ Jamf Now (MDM) が差し込む Web クリップや、手動で置いたアプリはそのまま残る
+# ※ Jamf Now (MDM) が差し込む Web クリップ、「アプリ」(Launchpad)、手動で置いたアプリはそのまま残る
 DOCK_REMOVE=(
   "Safari"
   "Messages"
@@ -76,8 +76,6 @@ DOCK_REMOVE=(
   "Pages"
   "App Store"
   "iPhone Mirroring"
-  "Launchpad"
-  "Apps"
 )
 
 # MDM (Jamf Now) 配布アプリ。未着でもエラーにせず案内のみ

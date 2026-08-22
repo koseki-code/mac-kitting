@@ -73,8 +73,10 @@ mkdir -p "$(dirname "$REPORT_FILE")"
     └ Dock は Apple 標準アプリ（Safari / メッセージ / マップ / 写真 等）を削除し、
        業務アプリ（Chrome / Slack / Zoom / Claude / ChatGPT / Typeless / PDFgear /
        OBS / Alfred / Clipy / AppCleaner / Rectangle / RunCat / システム設定）を追加済み。
-       Jamf Now の Web クリップは残る。削除/追加の対象を変えたい場合は
+       Jamf Now の Web クリップと「アプリ」は残る。削除/追加の対象を変えたい場合は
        lib/80-dock-login.sh の DOCK_REMOVE / DOCK_APPS を編集
+    └ デスクトップ画像は assets/wallpaper/wallpaper.jpg が自動適用される（85-wallpaper.sh）。
+       未格納なら標準のまま。画像の差し替えは assets/wallpaper/README.md を参照
 
   【3】Rectangle にアクセシビリティ権限を許可 ★必須
     └ Rectangle 起動時のダイアログで「システム設定を開く」をクリック
