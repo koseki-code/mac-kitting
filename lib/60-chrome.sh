@@ -43,11 +43,18 @@ fi
 # ========================
 echo "▶ Chrome Managed Policies を設定"
 
-# sudo権限のチェック
+# sudo権限のチェック。brew bundle 中に認証キャッシュが失効していることがあるので、
+# 端末が使えるならその場でパスワードを聞いて続行する（スキップより確実）
 if [[ "$EUID" -ne 0 ]] && ! sudo -n true 2>/dev/null; then
-  echo "WARN: sudo権限なし。Managed Policies はスキップします"
-  echo "      後で 'sudo bash 60-chrome.sh' で再実行してください"
-  exit 0
+  if [[ -e /dev/tty ]]; then
+    echo "sudo の認証が必要です（Chrome ポリシー適用のため）。管理者パスワードを入力してください"
+    sudo -v -p "管理者パスワード: " </dev/tty 2>/dev/tty || true
+  fi
+  if ! sudo -n true 2>/dev/null; then
+    echo "WARN: sudo権限なし。Managed Policies はスキップします"
+    echo "      後で 'sudo bash 60-chrome.sh' で再実行してください"
+    exit 0
+  fi
 fi
 
 # Chrome Managed Policies の plist パス

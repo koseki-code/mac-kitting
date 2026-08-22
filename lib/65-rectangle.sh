@@ -35,7 +35,12 @@ echo "Rectangle: $(defaults read "${RECTANGLE_DOMAIN}" rectangleVersion 2>/dev/n
 # バックグラウンドで起動して、すぐに kill する
 if ! defaults read "${RECTANGLE_DOMAIN}" >/dev/null 2>&1; then
   echo "▶ Rectangle 初回起動（plist 初期化のため）"
-  open -g -a Rectangle
+  # インストール直後は LaunchServices 未登録で名前指定 (-a Rectangle) が
+  # "Unable to find application" になるため、フルパスで起動する
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "${RECTANGLE_APP}" >/dev/null 2>&1 || true
+  if ! open -g -a "${RECTANGLE_APP}" 2>/dev/null; then
+    echo "WARN: Rectangle の起動に失敗しました。設定の書き込みは続行します"
+  fi
   sleep 3
   osascript -e 'quit app "Rectangle"' >/dev/null 2>&1 || true
   sleep 1

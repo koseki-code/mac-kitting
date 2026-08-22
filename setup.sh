@@ -97,7 +97,8 @@ start_sudo_keepalive() {
   if sudo -n true 2>/dev/null; then
     sudo -v 2>/dev/null || true
     # 親プロセスが生きている間、50秒ごとに sudo タイムスタンプを更新
-    ( while kill -0 "$$" 2>/dev/null; do sudo -n true 2>/dev/null || true; sleep 50; done ) &
+    # `sudo -n -v` でタイムスタンプを明示的に延長する（`sudo -n true` では延長されないことがある）
+    ( while kill -0 "$$" 2>/dev/null; do sudo -n -v 2>/dev/null || true; sleep 50; done ) &
     SUDO_KEEPALIVE_PID=$!
     ok "sudo キープアライブを開始（長時間の導入中もポリシー適用が有効）"
   else
