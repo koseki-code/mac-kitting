@@ -9,10 +9,15 @@ readonly INSTALL_RETRIES=3
 readonly RETRY_WAIT=20
 
 brew_ok() {
-  # brew コマンドが存在し、かつ Portable Ruby を含めて動作する状態か
+  # brew コマンドが存在し、かつ Portable Ruby を含めて動作する状態か。
+  # 見つかったら同時に PATH も通す（新規セッションでは .zprofile が未読込で
+  # `brew` が command not found になるため）。
   local b
   for b in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-    if [[ -x "$b" ]] && "$b" --version >/dev/null 2>&1; then return 0; fi
+    if [[ -x "$b" ]] && "$b" --version >/dev/null 2>&1; then
+      eval "$("$b" shellenv)"
+      return 0
+    fi
   done
   return 1
 }
