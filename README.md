@@ -48,6 +48,7 @@ curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/setup.
 | 65-rectangle | Rectangle（ウィンドウ管理）の設定 | 30秒 |
 | 70-obs | OBS Studio（セミナー録画用）のインストールと録画設定配置 | 2〜5分 |
 | 80-dock-login | 常駐アプリ（Alfred/Clipy/AppCleaner/PDFgear/OBS/RunCat）の初回起動・ログイン項目登録、Dock の不要アプリ削除と業務アプリ配置 | 1分 |
+| 85-wallpaper | デスクトップ画像を assets/wallpaper/wallpaper.jpg に設定（未格納ならスキップ） | 数秒 |
 | 99-report | 完了レポート出力 | 即時 |
 
 ### OBS Studio について

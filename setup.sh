@@ -187,6 +187,9 @@ main() {
   # ※ 30-apps.sh / 70-obs.sh の後でないとアプリが無くスキップされる
   run_module "80-dock-login.sh"
 
+  # デスクトップ画像（assets/wallpaper/wallpaper.jpg が未格納ならスキップ）
+  run_module "85-wallpaper.sh"
+
   run_module "99-report.sh"
 
   step "セットアップ完了"
