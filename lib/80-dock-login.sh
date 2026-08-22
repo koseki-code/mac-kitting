@@ -128,7 +128,9 @@ for app in "${LOGIN_APPS[@]}"; do
   if osascript -e "tell application \"System Events\" to get the name of every login item" 2>/dev/null \
        | tr ',' '\n' | sed 's/^ *//; s/ *$//' | grep -qx "$app"; then
     echo "      ログイン項目: 登録済み"
-  elif osascript -e "tell application \"System Events\" to make login item at end with properties {path:\"${path}\", hidden:false}" >/dev/null 2>&1; then
+  elif osascript -e "tell application \"System Events\" to make login item at end with properties {path:\"${path}\", hidden:false}" >/dev/null 2>&1 \
+       || { sleep 3; osascript -e "tell application \"System Events\" to make login item at end with properties {path:\"${path}\", hidden:false}" >/dev/null 2>&1; }; then
+    # 初回は「System Events の制御を許可」ダイアログ待ちで1回目が失敗しうるため、少し待って再試行
     echo "      ログイン項目: 登録"
   else
     echo "      WARN: ログイン項目の登録に失敗（System Events の制御許可ダイアログで拒否した可能性）"
