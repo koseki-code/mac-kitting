@@ -70,7 +70,7 @@ mkdir -p "$(dirname "$REPORT_FILE")"
        （スクリプト実行時に「System Events の制御を許可」を拒否すると未登録になる）
     └ PDFgear / RunCat は Jamf Now 配布のため、未着なら配布後に以下を再実行:
          bash <(curl -fsSL https://raw.githubusercontent.com/koseki-code/mac-kitting/main/lib/80-dock-login.sh)
-    └ Dock は Apple 標準アプリ（Safari / メッセージ / マップ / 写真 等）を削除し、
+    └ Dock は Apple 標準アプリのうち ミュージック / ゲーム / メール / 電話 / メッセージ / マップ を削除し、
        業務アプリ（Chrome / Slack / Zoom / Claude / ChatGPT / Typeless / PDFgear /
        OBS / Alfred / Clipy / AppCleaner / Rectangle / RunCat / システム設定）を追加済み。
        Jamf Now の Web クリップと「アプリ」は残る。削除/追加の対象を変えたい場合は
