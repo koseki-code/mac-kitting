@@ -54,28 +54,16 @@ DOCK_APPS=(
 )
 
 # Dock から削除する Apple 標準アプリ（名指しで消す。ここに無いものは触らない）
-# ※ Jamf Now (MDM) が差し込む Web クリップ、「アプリ」(Launchpad)、手動で置いたアプリはそのまま残る
+# ※ 2026-08-22 決定: ミュージック / ゲーム / メール / 電話 / メッセージ / マップ の6つのみ外す。
+#    Safari・カレンダー・写真・メモ等のその他標準アプリ、Jamf Now (MDM) の Web クリップ、
+#    「アプリ」(Launchpad)、手動で置いたアプリはそのまま残る
 DOCK_REMOVE=(
-  "Safari"
-  "Messages"
-  "Mail"
-  "Maps"
-  "Photos"
-  "FaceTime"
-  "Calendar"
-  "Contacts"
-  "Reminders"
-  "Notes"
-  "Freeform"
-  "TV"
   "Music"
-  "News"
-  "Podcasts"
-  "Keynote"
-  "Numbers"
-  "Pages"
-  "App Store"
-  "iPhone Mirroring"
+  "Games"
+  "Mail"
+  "Phone"
+  "Messages"
+  "Maps"
 )
 
 # MDM (Jamf Now) 配布アプリ。未着でもエラーにせず案内のみ
