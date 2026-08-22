@@ -57,7 +57,23 @@ if ! brew bundle install --file="$BREWFILE_PATH"; then
   echo ""
   echo "WARN: brew bundle が失敗。1項目ずつ個別インストールに切り替えます"
   FAILED_ITEMS=()
-  while IFS= read -r line; do
+
+  # ネットワーク不調（Connection reset 等）を吸収するため各項目を最大2回試す。
+  # ※ 必ず </dev/null を付ける。brew install（特に ca-certificates の post-install）が
+  #    標準入力を読むため、付けないと while read が読んでいる Brewfile の残り行を
+  #    brew に食われてループが途中で終わる（2026-08-22 実機で wget の後で停止した）。
+  brew_try() {
+    local i
+    for i in 1 2; do
+      if brew "$@" </dev/null; then return 0; fi
+      echo "  (失敗 ${i}/2: brew $*)"
+      (( i < 2 )) && sleep 10
+    done
+    return 1
+  }
+
+  # Brewfile は fd 3 で読む（標準入力を brew と共有しない）
+  while IFS= read -r -u 3 line; do
     line="${line%%#*}"
     kind="$(echo "$line" | awk '{print $1}')"
     name="$(echo "$line" | sed -n 's/^[a-z]* *"\([^"]*\)".*/\1/p')"
@@ -65,17 +81,17 @@ if ! brew bundle install --file="$BREWFILE_PATH"; then
     case "$kind" in
       brew)
         brew list --formula "$name" >/dev/null 2>&1 && continue
-        brew install --formula "$name" || FAILED_ITEMS+=("formula:${name}")
+        brew_try install --formula "$name" || FAILED_ITEMS+=("formula:${name}")
         ;;
       cask)
         brew list --cask "$name" >/dev/null 2>&1 && continue
-        brew install --cask "$name" || FAILED_ITEMS+=("cask:${name}")
+        brew_try install --cask "$name" || FAILED_ITEMS+=("cask:${name}")
         ;;
       tap)
-        brew tap "$name" || FAILED_ITEMS+=("tap:${name}")
+        brew_try tap "$name" || FAILED_ITEMS+=("tap:${name}")
         ;;
     esac
-  done < "$BREWFILE_PATH"
+  done 3< "$BREWFILE_PATH"
   if (( ${#FAILED_ITEMS[@]} > 0 )); then
     echo ""
     echo "WARN: 以下はインストールできませんでした（配布元の障害等）:"
